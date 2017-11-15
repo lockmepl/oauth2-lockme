@@ -1,5 +1,6 @@
 {
     "name": "lustmored/oauth2-lockme",
+    "description": "LockMe OAuth2 provider",
     "type": "library",
     "license": "GPLv3",
     "require": {

@@ -1,6 +1,7 @@
 {
     "name": "lustmored/oauth2-lockme",
     "type": "library",
+    "license": "GPLv3",
     "require": {
         "league/oauth2-client": "^2.2"
     },

@@ -9,25 +9,26 @@ use Psr\Http\Message\ResponseInterface;
 
 class Lockme extends AbstractProvider{
   use BearerAuthorizationTrait;
-  /**
-   * Domain
-   *
-   * @var string
-   */
-  public $domain = "https://lockme.pl";
 
   /**
    * Api domain
    *
    * @var string
    */
-  public $apiDomain = "https://api.beta.lockme.pl";
+  public $apiDomain = "https://api.lockme.pl";
 
   /**
    * API version
    * @var string
    */
   public $version = "v2.0";
+
+  public function __construct($options){
+    if($options['beta']){
+      $this->apiDomain = "https://api.beta.lockme.pl";
+    }
+    parent::__construct($options);
+  }
 
   public function getBaseAuthorizationUrl(): string{
     return $this->apiDomain."/authorize";

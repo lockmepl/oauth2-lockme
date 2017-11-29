@@ -39,7 +39,7 @@ class Lockme extends AbstractProvider{
   }
 
   public function getResourceOwnerDetailsUrl(AccessToken $token): string{
-    return $this->apiDomain.'/me';
+    return $this->apiDomain.'/'.$this->version.'/me';
   }
 
   protected function getDefaultScopes(): array{
@@ -73,7 +73,7 @@ class Lockme extends AbstractProvider{
       $options['headers']['Content-Type'] = 'application/json';
     }
 
-    $request = $this->getAuthenticatedRequest($method, $this->apiDomain.$url, $token, $options);
+    $request = $this->getAuthenticatedRequest($method, $this->apiDomain.'/'.$this->version.$url, $token, $options);
 
     return $this->getParsedResponse($request);
   }

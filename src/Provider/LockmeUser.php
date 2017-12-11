@@ -30,7 +30,7 @@ class LockmeUser implements ResourceOwnerInterface{
    *
    * @return string|null
    */
-  public function getId(): ?int{
+  public function getId(){
       return $this->getValueByKey($this->response, 'userid');
   }
 
@@ -39,7 +39,7 @@ class LockmeUser implements ResourceOwnerInterface{
    *
    * @return array
    */
-  public function toArray(): array{
+  public function toArray(){
       return $this->response;
   }
 }

@@ -41,7 +41,7 @@ class Lockme extends AbstractProvider{
     return $this->apiDomain.'/'.$this->version.'/me';
   }
 
-  protected function getDefaultScopes(): array{
+  protected function getDefaultScopes(){
     return [];
   }
 

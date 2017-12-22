@@ -1,17 +1,19 @@
 <?php
 namespace Lockme\OAuth2\Client\Provider\Exception;
+
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
 
-class LockmeIdentityProviderException extends IdentityProviderException{
-  /**
-     * Creates client exception from response.
-     *
-     * @param  ResponseInterface $response
-     * @param  array $data Parsed response data
-     *
-     * @return IdentityProviderException
-     */
+class LockmeIdentityProviderException extends IdentityProviderException
+{
+    /**
+       * Creates client exception from response.
+       *
+       * @param  ResponseInterface $response
+       * @param  array $data Parsed response data
+       *
+       * @return IdentityProviderException
+       */
     public static function clientException(ResponseInterface $response, $data)
     {
         return static::fromResponse(

@@ -2,7 +2,7 @@
     "name": "lustmored/oauth2-lockme",
     "description": "LockMe OAuth2 provider",
     "type": "library",
-    "license": "GPLv3",
+    "license": "GPL-3.0-or-later",
     "require": {
         "league/oauth2-client": "^2.2"
     },

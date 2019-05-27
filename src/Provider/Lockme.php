@@ -27,7 +27,7 @@ class Lockme extends AbstractProvider
     public function __construct($options)
     {
         if ($options['beta']) {
-            $this->apiDomain = "https://api.beta.lockme.pl";
+            $this->apiDomain = "https://api.pl.lockme.xyz";
         }
         parent::__construct($options);
     }

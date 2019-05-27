@@ -4,7 +4,8 @@
     "type": "library",
     "license": "GPL-3.0-or-later",
     "require": {
-        "league/oauth2-client": "^2.2"
+        "league/oauth2-client": "^2.2",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

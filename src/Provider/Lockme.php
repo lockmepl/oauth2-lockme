@@ -30,6 +30,9 @@ class Lockme extends AbstractProvider
         if ($options['beta']) {
             $this->apiDomain = 'https://api.lock.me.spjbnteggq-6s2dfxbi5xbfm.eu.s5y.io';
         }
+        if($options['api_domain']) {
+            $this->apiDomain = $options['api_domain'];
+        }
         parent::__construct($options);
     }
 

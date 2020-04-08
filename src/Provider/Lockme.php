@@ -2,6 +2,7 @@
 namespace Lockme\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Lockme\OAuth2\Client\Provider\Exception\LockmeIdentityProviderException;
@@ -16,30 +17,30 @@ class Lockme extends AbstractProvider
      *
      * @var string
      */
-    public $apiDomain = "https://api.lockme.pl";
+    public $apiDomain = 'https://api.lock.me';
 
     /**
      * API version
      * @var string
      */
-    public $version = "v2.0";
+    public $version = 'v2.0';
 
     public function __construct($options)
     {
         if ($options['beta']) {
-            $this->apiDomain = "https://api.pl.lockme.xyz";
+            $this->apiDomain = 'https://api.lock.me.spjbnteggq-6s2dfxbi5xbfm.eu.s5y.io';
         }
         parent::__construct($options);
     }
 
     public function getBaseAuthorizationUrl()
     {
-        return $this->apiDomain."/authorize";
+        return $this->apiDomain.'/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->apiDomain."/access_token";
+        return $this->apiDomain.'/access_token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
@@ -56,7 +57,9 @@ class Lockme extends AbstractProvider
     {
         if ($response->getStatusCode() >= 400) {
             throw LockmeIdentityProviderException::clientException($response, $data);
-        } elseif (isset($data['error'])) {
+        }
+
+        if (isset($data['error'])) {
             throw LockmeIdentityProviderException::oauthException($response, $data);
         }
     }
@@ -68,11 +71,12 @@ class Lockme extends AbstractProvider
 
     /**
      * Generate request, execute it and return parsed response
-     * @param  string $method
-     * @param  string $url
-     * @param  AccessToken|string|null $token
-     * @param  mixed  $body
+     * @param string                  $method
+     * @param string                  $url
+     * @param AccessToken|string|null $token
+     * @param mixed                   $body
      * @return mixed
+     * @throws IdentityProviderException
      */
     public function executeRequest($method, $url, $token, $body = null)
     {

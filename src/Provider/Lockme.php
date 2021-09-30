@@ -33,6 +33,9 @@ class Lockme extends AbstractProvider
         if(isset($options['apiDomain'])) {
             $this->apiDomain = $options['apiDomain'];
         }
+        if(isset($options['version'])) {
+            $this->version = $options['version'];
+        }
         parent::__construct($options);
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Lockme\OAuth2\Client\Provider;
 
+use GuzzleHttp\Client as HttpClient;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -27,6 +28,7 @@ class Lockme extends AbstractProvider
 
     public function __construct($options)
     {
+        $collaborators = [];
         if(isset($options['api_domain'])) {
             $this->apiDomain = $options['api_domain'];
         }
@@ -36,7 +38,14 @@ class Lockme extends AbstractProvider
         if(isset($options['version'])) {
             $this->version = $options['version'];
         }
-        parent::__construct($options);
+        if(isset($options['ignoreSslErrors']) && $options['ignoreSslErrors']) {
+            $collaborators['httpClient'] = new HttpClient(
+                [
+                    'verify' => false
+                ]
+            );
+        }
+        parent::__construct($options, $collaborators);
     }
 
     public function getBaseAuthorizationUrl()

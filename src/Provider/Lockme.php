@@ -23,6 +23,11 @@ class Lockme extends AbstractProvider
      */
     public string $version = 'v2.3';
 
+    /**
+     * Default scopes
+     */
+    private array $scopes = [];
+
     public function __construct(array $options = [])
     {
         $collaborators = [];
@@ -31,6 +36,9 @@ class Lockme extends AbstractProvider
         }
         if(isset($options['apiDomain'])) {
             $this->apiDomain = $options['apiDomain'];
+        }
+        if (isset($options['scopes'])) {
+            $this->scopes = $options['scopes'];
         }
         if(isset($options['version'])) {
             $this->version = $options['version'];
@@ -62,7 +70,7 @@ class Lockme extends AbstractProvider
 
     protected function getDefaultScopes(): array
     {
-        return ['rooms_manage'];
+        return $this->scopes;
     }
 
     protected function checkResponse(ResponseInterface $response, $data): void

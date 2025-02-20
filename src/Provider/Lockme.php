@@ -16,32 +16,23 @@ class Lockme extends AbstractProvider
     /**
      * Api domain
      */
-    public string $apiDomain = 'https://api.lock.me';
+    protected string $apiDomain = 'https://api.lock.me';
 
     /**
      * API version
      */
-    public string $version = 'v2.3';
+    protected string $version = 'v2.3';
 
     /**
      * Default scopes
      */
-    private array $scopes = [];
+    protected array $scopes = [];
 
     public function __construct(array $options = [])
     {
         $collaborators = [];
         if(isset($options['api_domain'])) {
-            $this->apiDomain = $options['api_domain'];
-        }
-        if(isset($options['apiDomain'])) {
-            $this->apiDomain = $options['apiDomain'];
-        }
-        if (isset($options['scopes'])) {
-            $this->scopes = $options['scopes'];
-        }
-        if(isset($options['version'])) {
-            $this->version = $options['version'];
+            $options['apiDomain'] = $options['api_domain'];
         }
         if(isset($options['ignoreSslErrors']) && $options['ignoreSslErrors']) {
             $collaborators['httpClient'] = new HttpClient(

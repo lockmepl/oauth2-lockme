@@ -15,18 +15,15 @@ class Lockme extends AbstractProvider
 
     /**
      * Api domain
-     *
-     * @var string
      */
-    public $apiDomain = 'https://api.lock.me';
+    public string $apiDomain = 'https://api.lock.me';
 
     /**
      * API version
-     * @var string
      */
-    public $version = 'v2.3';
+    public string $version = 'v2.3';
 
-    public function __construct($options)
+    public function __construct(array $options = [])
     {
         $collaborators = [];
         if(isset($options['api_domain'])) {
@@ -48,27 +45,27 @@ class Lockme extends AbstractProvider
         parent::__construct($options, $collaborators);
     }
 
-    public function getBaseAuthorizationUrl()
+    public function getBaseAuthorizationUrl(): string
     {
         return $this->apiDomain.'/authorize';
     }
 
-    public function getBaseAccessTokenUrl(array $params)
+    public function getBaseAccessTokenUrl(array $params): string
     {
         return $this->apiDomain.'/access_token';
     }
 
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return $this->apiDomain.'/'.$this->version.'/me';
     }
 
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): array
     {
         return ['rooms_manage'];
     }
 
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data): void
     {
         if ($response->getStatusCode() >= 400) {
             throw LockmeIdentityProviderException::clientException($response, $data);
@@ -79,21 +76,17 @@ class Lockme extends AbstractProvider
         }
     }
 
-    protected function createResourceOwner(array $response, AccessToken $token)
+    protected function createResourceOwner(array $response, AccessToken $token): LockmeUser
     {
         return new LockmeUser($response);
     }
 
     /**
      * Generate request, execute it and return parsed response
-     * @param string                  $method
-     * @param string                  $url
-     * @param AccessToken|string|null $token
-     * @param mixed                   $body
-     * @return mixed
+     *
      * @throws IdentityProviderException
      */
-    public function executeRequest($method, $url, $token, $body = null)
+    public function executeRequest(string $method, string $url, AccessToken|string|null $token, mixed $body = null): mixed
     {
         $options = [];
         if ($body) {

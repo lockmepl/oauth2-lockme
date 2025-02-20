@@ -65,7 +65,7 @@ class Lockme extends AbstractProvider
 
     protected function getDefaultScopes()
     {
-        return [];
+        return ['rooms_manage'];
     }
 
     protected function checkResponse(ResponseInterface $response, $data)

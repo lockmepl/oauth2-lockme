@@ -2,6 +2,8 @@
 
 This package provides LockMe OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
+> **Recommendation**: For a more comprehensive integration with LockMe, we recommend using the [lustmored/lockme-sdk](https://github.com/lustmored/lockme-sdk) package, which provides a full-featured SDK for the LockMe API.
+
 ## Installation
 
 To install, use Composer:
@@ -124,6 +126,24 @@ try {
     echo $e->getMessage();
 }
 ```
+
+## LockMe SDK and API Documentation
+
+### LockMe SDK
+
+For more advanced integration with LockMe, we recommend using the [lustmored/lockme-sdk](https://github.com/lustmored/lockme-sdk) package. This SDK provides a more comprehensive set of features and utilities specifically designed for the LockMe API.
+
+To install the LockMe SDK, use Composer:
+
+```
+composer require lustmored/lockme-sdk
+```
+
+For detailed documentation and usage examples, please refer to the [SDK repository](https://github.com/lustmored/lockme-sdk).
+
+### API Documentation
+
+For complete API specifications and endpoint documentation, please refer to the official [LockMe API Documentation](https://apidoc.lock.me/).
 
 ### Configuring the Provider
 

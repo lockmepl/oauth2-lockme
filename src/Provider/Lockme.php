@@ -21,7 +21,7 @@ class Lockme extends AbstractProvider
     /**
      * API version
      */
-    protected string $version = 'v2.3';
+    protected string $version = 'v2.4';
 
     /**
      * Default scopes

@@ -106,6 +106,10 @@ if ($accessToken->hasExpired()) {
 This package includes a helper method `executeRequest()` to easily make authenticated API requests:
 
 ```php
+use Lockme\OAuth2\Client\Provider\Exception\ConflictException;
+use Lockme\OAuth2\Client\Provider\Exception\LockmeIdentityProviderException;
+use Lockme\OAuth2\Client\Provider\Exception\NotFoundException;
+
 try {
     // Make an authenticated API request
     $response = $provider->executeRequest(
@@ -118,11 +122,37 @@ try {
     // Process the response
     var_dump($response);
 
-} catch (IdentityProviderException $e) {
-    // Handle error
+} catch (NotFoundException $e) {
+    // The room, booking, ... does not exist
+} catch (ConflictException $e) {
+    // The request clashes with the current state, e.g. the hour was booked meanwhile
+} catch (LockmeIdentityProviderException $e) {
+    // Any other refusal; getCode() is the HTTP status, getResponseBody() the raw body
     echo $e->getMessage();
 }
 ```
+
+### Exceptions
+
+Every refusal is thrown as a subclass of `Lockme\OAuth2\Client\Provider\Exception\LockmeIdentityProviderException`
+(itself a `League\OAuth2\Client\Provider\Exception\IdentityProviderException`), chosen by the HTTP status
+of the response. The message carries the API's description of the error and the code the HTTP status.
+
+| Status | Exception |
+|---|---|
+| 400 | `BadRequestException` |
+| 401 | `UnauthorizedException` |
+| 403 | `ForbiddenException` |
+| 404 | `NotFoundException` |
+| 409 | `ConflictException` |
+| 422 | `UnprocessableEntityException` |
+| other 4xx | `ClientErrorException` (base of all the above) |
+| 5xx | `ServerErrorException` |
+| 2xx with an `error` field | `OAuthErrorException` |
+
+Up to API version 2.6 the API reports every refusal with status 500, so `ServerErrorException` is all you get
+there. Since version 2.7 (the default) the status tells what went wrong, see the
+[API documentation](https://apidoc.lock.me/).
 
 ## LockMe SDK and API Documentation
 

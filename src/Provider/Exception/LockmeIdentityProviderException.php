@@ -1,53 +1,48 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Lockme\OAuth2\Client\Provider\Exception;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
 
+use function is_array;
+use function is_string;
+
 class LockmeIdentityProviderException extends IdentityProviderException
 {
     /**
-       * Creates client exception from response.
-       *
-       * The API describes a refusal in the `error` field, the OAuth token endpoint in `message`.
-       *
-       * @param  ResponseInterface $response
-       * @param  array|string $data Parsed response data
-       *
-       * @return IdentityProviderException
-       */
-    public static function clientException(ResponseInterface $response, $data)
-    {
-        return static::fromResponse(
-            $response,
-            $data['message'] ?? $data['error'] ?? $response->getReasonPhrase()
-        );
-    }
-    /**
-     * Creates oauth exception from response.
+     * Creates an exception from a response with an HTTP error status.
      *
-     * @param  ResponseInterface $response
-     * @param  array $data Parsed response data
+     * The API describes a refusal in the `error` field, the OAuth token endpoint in `message`.
      *
-     * @return IdentityProviderException
+     * @param mixed $data Parsed response body
      */
-    public static function oauthException(ResponseInterface $response, $data)
+    public static function clientException(ResponseInterface $response, mixed $data): self
     {
-        return static::fromResponse(
-            $response,
-            $data['error'] ?? $response->getReasonPhrase()
-        );
+        $message = is_array($data) ? ($data['message'] ?? $data['error'] ?? null) : null;
+
+        return static::fromResponse($response, is_string($message) ? $message : null);
     }
+
     /**
-     * Creates identity exception from response.
+     * Creates an exception from a successful response that nevertheless carries an `error` field.
      *
-     * @param  ResponseInterface $response
-     * @param  string $message
-     *
-     * @return IdentityProviderException
+     * @param mixed $data Parsed response body
      */
-    protected static function fromResponse(ResponseInterface $response, $message = null)
+    public static function oauthException(ResponseInterface $response, mixed $data): self
     {
-        return new static($message, $response->getStatusCode(), (string) $response->getBody());
+        $message = is_array($data) ? ($data['error'] ?? null) : null;
+
+        return static::fromResponse($response, is_string($message) ? $message : null);
+    }
+
+    /**
+     * @param string|null $message Falls back to the HTTP reason phrase
+     */
+    protected static function fromResponse(ResponseInterface $response, ?string $message = null): self
+    {
+        return new self($message ?? $response->getReasonPhrase(), $response->getStatusCode(), (string) $response->getBody());
     }
 }

@@ -1,49 +1,43 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Lockme\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 
+use function is_int;
+use function is_string;
+
 /**
- * Lockme user
+ * The LockMe user the access token belongs to, as returned by the `/me` endpoint.
  */
 class LockmeUser implements ResourceOwnerInterface
 {
     use ArrayAccessorTrait;
 
     /**
-     * Raw response
-     *
-     * @var array
+     * @param array<string, mixed> $response Raw `/me` response
      */
-    protected $response;
+    public function __construct(
+        private readonly array $response = [],
+    ) {}
 
-    /**
-     * Creates new Lockme user
-     *
-     * @param array $response
-     */
-    public function __construct(array $response = [])
+    public function getId(): ?int
     {
-        $this->response = $response;
+        $id = $this->getValueByKey($this->response, 'userid');
+        if (is_int($id)) {
+            return $id;
+        }
+
+        return is_string($id) && ctype_digit($id) ? (int) $id : null;
     }
 
     /**
-     * Get resource owner id
-     *
-     * @return string|null
+     * @return array<string, mixed>
      */
-    public function getId()
-    {
-        return $this->getValueByKey($this->response, 'userid');
-    }
-
-    /**
-     * Return all of the owner details available as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->response;
     }

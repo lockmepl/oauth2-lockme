@@ -14,14 +14,11 @@ composer require lustmored/oauth2-lockme
 
 ## Requirements
 
-The following versions of PHP are supported:
-
-* PHP 5.6+
-* PHP 7.0+
-* PHP 8.0+
+PHP 8.2 or newer is required.
 
 This package depends on:
 - [league/oauth2-client](https://github.com/thephpleague/oauth2-client) (^2.2)
+- [guzzlehttp/guzzle](https://github.com/guzzle/guzzle) (^7.8 || ^8.0)
 - PHP ext-json
 
 ## Usage
@@ -158,6 +155,16 @@ $provider = new Lockme([
     'version'         => 'v2.7',                    // Optional: API version, defaults to v2.7
     'ignoreSslErrors' => false                      // Optional: ignore SSL errors
 ]);
+```
+
+The second constructor argument takes the collaborators of `League\OAuth2\Client\Provider\AbstractProvider`,
+e.g. `['httpClient' => $client]` to supply your own HTTP client.
+
+## Development
+
+```
+composer check   # php-cs-fixer (dry run) and phpstan
+composer cs:fix  # apply the code style
 ```
 
 ## License

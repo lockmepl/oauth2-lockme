@@ -9,8 +9,10 @@ class LockmeIdentityProviderException extends IdentityProviderException
     /**
        * Creates client exception from response.
        *
+       * The API describes a refusal in the `error` field, the OAuth token endpoint in `message`.
+       *
        * @param  ResponseInterface $response
-       * @param  array $data Parsed response data
+       * @param  array|string $data Parsed response data
        *
        * @return IdentityProviderException
        */
@@ -18,7 +20,7 @@ class LockmeIdentityProviderException extends IdentityProviderException
     {
         return static::fromResponse(
             $response,
-            isset($data['message']) ? $data['message'] : $response->getReasonPhrase()
+            $data['message'] ?? $data['error'] ?? $response->getReasonPhrase()
         );
     }
     /**
@@ -33,7 +35,7 @@ class LockmeIdentityProviderException extends IdentityProviderException
     {
         return static::fromResponse(
             $response,
-            isset($data['error']) ? $data['error'] : $response->getReasonPhrase()
+            $data['error'] ?? $response->getReasonPhrase()
         );
     }
     /**

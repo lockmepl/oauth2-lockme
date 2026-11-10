@@ -28,13 +28,12 @@ class Lockme extends AbstractProvider
      */
     protected array $scopes = [];
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], array $collaborators = [])
     {
-        $collaborators = [];
         if(isset($options['api_domain'])) {
             $options['apiDomain'] = $options['api_domain'];
         }
-        if(isset($options['ignoreSslErrors']) && $options['ignoreSslErrors']) {
+        if(!empty($options['ignoreSslErrors']) && !isset($collaborators['httpClient'])) {
             $collaborators['httpClient'] = new HttpClient(
                 [
                     'verify' => false

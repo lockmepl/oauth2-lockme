@@ -155,7 +155,7 @@ $provider = new Lockme([
     'clientSecret'    => '{lockme-client-secret}',  // Required
     'redirectUri'     => 'https://example.com/',    // Required
     'apiDomain'       => 'https://api.lock.me',     // Optional: custom API domain
-    'version'         => 'v2.1',                    // Optional: API version
+    'version'         => 'v2.7',                    // Optional: API version, defaults to v2.7
     'ignoreSslErrors' => false                      // Optional: ignore SSL errors
 ]);
 ```
